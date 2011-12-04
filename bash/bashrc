@@ -1,0 +1,15 @@
+PATH=$PATH:~/.cabal/bin
+function bash_git_branch
+{
+  git branch 2> /dev/null | grep \* | python -c "print '['+ raw_input()[2:] + ']'" 2> /dev/null
+}
+
+PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\[\033[00;33m\]$(bash_git_branch)\[\033[00;00m\]\$'
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
+export LESS=-R
+
+#git oneline for multiline messages
+alias gl='git log --format="%Cblue %h %Cgreen %s %Creset %b"|grep -v "^$"|less'
+alias glg="git log --format=\"%Cblue %h %Cgreen %s %Creset %b\" --graph|less"
+function cs() { cd /home/gavri/git; find . -name extra -or -name app -or -name lib|xargs ack-grep "$@" ;cd - >/dev/null;}
+alias ack='ack-grep'

@@ -1,0 +1,4 @@
+set guioptions-=T
+
+colorscheme railscasts
+set guifont=inconsolata\ 10
