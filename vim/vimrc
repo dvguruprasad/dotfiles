@@ -152,7 +152,7 @@ map <Leader>fm :FufBufferTag<CR>
 map <Leader>fk :FufBookmarkFile<CR>
 map <Leader>fa :FufBookmarkFileAdd<CR>
 map <Leader>fq :FufQuickFix<CR>
-map <Leader>fx :!ctags -R *<CR>
+map <Leader>fx :!/usr/bin/ctags -R *<CR>
 
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
@@ -188,7 +188,7 @@ if filereadable(".vimrc.local")
 endif
 
 if executable("ack")
-  set grepprg=ack\ -H\ --nogroup\ --nocolor\ --ignore-dir=tmp\ --ignore-dir=coverage
+  set grepprg=/opt/local/bin/ack\ -H\ --nogroup\ --nocolor\ --ignore-dir=tmp\ --ignore-dir=coverage
 endif
 
 
@@ -221,7 +221,7 @@ function! OpenURL()
 endfunction
 map <Leader>w :call OpenURL()<CR>
 
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+let g:ackprg="/usr/local/bin/ack -H --nocolor --nogroup --column"
 set hidden
 set guioptions-=m
 set guioptions-=T
@@ -252,6 +252,7 @@ let g:syntastic_enable_signs=1
 :filetype plugin on
 :nmap <c-tab> :bnext<cr>
 :nmap <c-s-tab> :bprevious<cr>
+:nmap <c-s> :w<CR>
 
 
 
@@ -279,13 +280,8 @@ set tabstop=8
 set softtabstop=4
 set shiftwidth=4
 
-
-python << EOF
-import os
-import sys
-import vim
-for p in sys.path:
-    if os.path.isdir(p):
-        vim.command(r"set path+=%s" % (p.replace(" ", r"\ ")))
-EOF
 set guioptions+=c
+
+map <F2> :%s/\s\+$//<CR>
+nmap m<tab> ccdef <esc>oend<esc>kA
+nmap c<tab> ccclass <esc>oend<esc>kA
