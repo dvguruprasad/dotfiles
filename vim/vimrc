@@ -1,5 +1,5 @@
 filetype off
-set rtp+=~/.vim/vundle/
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Bundle 'tpope/vim-git'
@@ -7,7 +7,7 @@ Bundle 'pbrisbin/html-template-syntax.git'
 Bundle 'Gundo'
 Bundle 'klen/rope-vim.git'
 Bundle 'trapd00r/vidir'
-Bundle 'notes.vim'
+"Bundle 'notes.vim'
 Bundle 'python.vim'
 Bundle 'vim-scripts/pep8.git'
 Bundle 'fs111/pydoc.vim.git'
@@ -51,7 +51,15 @@ Bundle 'lukerandall/haskellmode-vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'snipMate'
 Bundle 'hlint'
+Bundle 'nvie/vim-flake8'
 autocmd FileType haskell compiler hlint
+Bundle 'xolox/vim-misc'
+
+"clojure
+Bundle 'tpope/vim-fireplace'
+Bundle 'tpope/vim-classpath'
+Bundle 'guns/vim-clojure-static'
+Bundle 'kien/rainbow_parentheses.vim'
 
 
 set nocompatible
@@ -110,6 +118,7 @@ let mapleader = ","
 
 map <Leader>R :e doc/README_FOR_APP<CR>
 
+"ruby on rails
 map <Leader>m :Rmodel 
 map <Leader>c :Rcontroller 
 map <Leader>v :Rview 
@@ -134,6 +143,7 @@ map <Leader>ii :call g:IDSearchCustom()<CR>
 map <Leader>iw :call g:IDSearchCurrentWord()<CR>
 map <Leader>ix :!mkid .<CR>
 
+"git
 map <Leader>gb :Gblame C<CR>
 map <Leader>gd :Gdiff<CR>
 map <Leader>gs :Gstatus<CR>
@@ -152,7 +162,7 @@ map <Leader>fm :FufBufferTag<CR>
 map <Leader>fk :FufBookmarkFile<CR>
 map <Leader>fa :FufBookmarkFileAdd<CR>
 map <Leader>fq :FufQuickFix<CR>
-map <Leader>fx :!/usr/bin/ctags -R *<CR>
+map <Leader>fx :!/usr/local/bin/ctags -R *<CR>
 
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
@@ -172,10 +182,10 @@ vmap D y'>p
 vmap P p :call setreg('"', getreg('0')) <CR>
 
 au! BufRead,BufNewFile *.haml         setfiletype haml
-
 nmap <F1> <Esc>
 
 imap <C-F> <C-R>=expand("%")<CR>
+
 
 imap <C-L> <Space>=><Space>
 
@@ -209,7 +219,7 @@ set tags=./tags;
 
 let g:fuf_splitPathMatching=1
 
-command -bar -nargs=1 OpenURL :!open <args>
+command! -bar -nargs=1 OpenURL :!open <args>
 function! OpenURL()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
   echo s:uri
@@ -254,8 +264,6 @@ let g:syntastic_enable_signs=1
 :nmap <c-s-tab> :bprevious<cr>
 :nmap <c-s> :w<CR>
 
-
-
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
 set autowriteall
@@ -271,8 +279,8 @@ autocmd Syntax ruby setlocal foldmethod=syntax
 autocmd Syntax python setlocal foldmethod=indent
 autocmd Syntax ruby normal zR
 autocmd Syntax python normal zR
-let g:notes_directory = '~/Dropbox/notes'
-let g:notes_shadowdir = '~/notes_shadow'
+"let g:notes_directory = '~/Dropbox/notes'
+"let g:notes_shadowdir = '~/notes_shadow'
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 
 set textwidth=79
@@ -285,3 +293,39 @@ set guioptions+=c
 map <F2> :%s/\s\+$//<CR>
 nmap m<tab> ccdef <esc>oend<esc>kA
 nmap c<tab> ccclass <esc>oend<esc>kA
+source /Users/TWI/code/ropevim/ropevim.vim
+autocmd BufWritePost *.py call Flake8()
+"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+"rmatch OverLength /\%79v.\+/
+
+
+" clojure
+let g:clojure_syntax_keywords = {
+    \ 'clojureMacro': ["defproject", "defcustom"],
+    \ 'clojureFunc': ["string/join", "string/replace"]
+    \ }
+
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+
+let g:rbpt_max = 16
+
+let g:rbpt_loadcmd_toggle = 0
+
+map <C-Enter> :Eval<CR>
